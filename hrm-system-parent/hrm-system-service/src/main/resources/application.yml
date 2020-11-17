@@ -1,0 +1,26 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: hrm-system
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql:///hrm-system?useSSL=false&useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1010/eureka/
+  instance:
+    prefer-ip-address: true  #使用ip注册到Eureka
+    instance-id: hrm-system:8001  #指定客户端实例的ID
+
+mybatis-plus: #集成MyBatis-Plus
+  mapper-locations: classpath*:cn/itsource/hrm/mapper/*Mapper.xml
+  type-aliases-package: cn.itsource.hrm.domain,cn.itsource.hrm.query
+  configuration:
+    map-underscore-to-camel-case: true
