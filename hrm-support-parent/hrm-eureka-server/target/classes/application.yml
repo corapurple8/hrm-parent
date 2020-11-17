@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: eureka-server #服务名称
+server:
+  port: 1010 #端口
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:   #相当于是localhost:1010/eureka/..
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ #单机配置
+  server:
+    enable-self-preservation: false #不开启自我保护
+    eviction-interval-timer-in-ms: 60000 #60秒
