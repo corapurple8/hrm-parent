@@ -1,0 +1,21 @@
+server:
+  port: 1030
+
+spring:
+  application:
+    name: config-server
+  #git仓库中拉取配置
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/corapurple8/hrm-config.git
+          searchPaths: src/main/resources #子文件夹中加载配置
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1010/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: config-server:1030  #指定客户端实例的ID

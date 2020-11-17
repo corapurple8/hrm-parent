@@ -10,6 +10,7 @@
         <module name="hrm-basic-generator" />
         <module name="hrm-zuul-gateway" />
         <module name="hrm-eureka-server" />
+        <module name="hrm-config-server" />
         <module name="hrm-system-common" />
         <module name="hrm-system-service" />
       </profile>
