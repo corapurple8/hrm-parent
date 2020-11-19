@@ -1,12 +1,20 @@
 package cn.itsource.hrm.service.impl;
 
+import cn.itsource.basic.util.AjaxResult;
+import cn.itsource.hrm.client.RedisClient;
+import cn.itsource.hrm.client.RedisConstants;
 import cn.itsource.hrm.domain.CourseType;
 import cn.itsource.hrm.mapper.CourseTypeMapper;
 import cn.itsource.hrm.service.ICourseTypeService;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +30,9 @@ import java.util.Map;
  */
 @Service
 public class CourseTypeServiceImpl extends ServiceImpl<CourseTypeMapper, CourseType> implements ICourseTypeService {
+
+    @Autowired
+    private RedisClient redisClient;
     /**
      * 加载课程类型树
      * @return
@@ -30,7 +41,24 @@ public class CourseTypeServiceImpl extends ServiceImpl<CourseTypeMapper, CourseT
     public List<CourseType> treeData() {
         //return treeDataRecursive(0L);//递归入口 从第一级进去
         //return treeDataFor();从双重for循环获取
-        return treeDataForMap();//最佳优化获取
+        //return treeDataForMap();//最佳优化获取
+        //先从redis中获取
+        AjaxResult result = redisClient.get(RedisConstants.ALL_COURSE_TYPE_KEY);
+        Assert.isTrue(result.isSuccess(),result.getMessage());
+        //如果有
+        String resultObj = (String) result.getResultObj();
+        if (StringUtils.isNotBlank(resultObj)){
+            //查询到了直接拿出来用
+            List<CourseType> courseTypes = JSONArray.parseArray(resultObj, CourseType.class);
+            return courseTypes;
+        }
+        //如果没查到
+        //从数据库里查且放入缓存
+        List<CourseType> courseTypes = treeDataForMap();
+        String jsonString = JSONArray.toJSONString(courseTypes);
+        AjaxResult result1 = redisClient.set(RedisConstants.ALL_COURSE_TYPE_KEY, jsonString, 60 * 60);
+        Assert.isTrue(result1.isSuccess(),result.getMessage());
+        return courseTypes;
     }
 
     /**
@@ -103,5 +131,41 @@ public class CourseTypeServiceImpl extends ServiceImpl<CourseTypeMapper, CourseT
             }
         }
         return list;
+    }
+
+    @Override
+    public boolean save(CourseType entity) {
+        boolean save = super.save(entity);
+        if (save){
+            //调用清空
+            synRedis();
+        }
+        return save;
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        boolean b = super.removeById(id);
+        if (b){
+            synRedis();
+        }
+        return b;
+    }
+
+    @Override
+    public boolean updateById(CourseType entity) {
+        boolean b = super.updateById(entity);
+        if (b){
+            synRedis();
+        }
+        return b;
+    }
+
+    /**
+     * 清空缓存
+     */
+    public void synRedis(){
+        AjaxResult result = redisClient.del(RedisConstants.ALL_COURSE_TYPE_KEY);
+        Assert.isTrue(result.isSuccess(),result.getMessage());
     }
 }

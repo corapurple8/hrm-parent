@@ -3,6 +3,8 @@ package cn.itsource.hrm.domain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -58,10 +60,10 @@ public class Course implements Serializable {
     private String userName;
 
     @ApiModelProperty(value = "课程的开课时间")
-    private LocalDateTime startTime;
+    private LocalDate startTime;
 
     @ApiModelProperty(value = "课程的节课时间")
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 
     @ApiModelProperty(value = "封面")
     private String pic;
