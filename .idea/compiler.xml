@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hrm-basic-util" />
+        <module name="hrm-basic-validator" />
+        <module name="hrm-file-service" />
         <module name="hrm-basic-generator" />
         <module name="hrm-zuul-gateway" />
         <module name="hrm-eureka-server" />

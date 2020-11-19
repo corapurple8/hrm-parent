@@ -5,6 +5,7 @@ import cn.itsource.hrm.domain.TenantType;
 import cn.itsource.hrm.query.TenantTypeQuery;
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -81,8 +82,12 @@ public class TenantTypeController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<TenantType> json(@RequestBody TenantTypeQuery query)
     {
-        Page<TenantType> page = new Page<TenantType>(query.getPageNum(),query.getPageSize());
-        page = tenantTypeService.page(page);
+        Page<TenantType> page = new Page<TenantType>(query.getPage(),query.getPageSize());
+        page = tenantTypeService.page(page,
+                new QueryWrapper<TenantType>()
+                        .like("name",query.getKeyword())
+                        .or()
+                        .like("description",query.getKeyword()));
         return new PageList<TenantType>(page.getTotal(),page.getRecords());
     }
 }

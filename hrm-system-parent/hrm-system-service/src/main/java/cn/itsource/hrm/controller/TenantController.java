@@ -1,5 +1,6 @@
 package cn.itsource.hrm.controller;
 
+import cn.itsource.hrm.controller.dto.TenantEnteringDto;
 import cn.itsource.hrm.service.ITenantService;
 import cn.itsource.hrm.domain.Tenant;
 import cn.itsource.hrm.query.TenantQuery;
@@ -7,6 +8,7 @@ import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,8 +83,20 @@ public class TenantController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Tenant> json(@RequestBody TenantQuery query)
     {
-        Page<Tenant> page = new Page<Tenant>(query.getPageNum(),query.getPageSize());
+        Page<Tenant> page = new Page<Tenant>(query.getPage(),query.getPageSize());
         page = tenantService.page(page);
         return new PageList<Tenant>(page.getTotal(),page.getRecords());
+    }
+
+    /**
+     * 机构入驻
+     * @param dto
+     * @return
+     */
+    @PostMapping("/entering")
+    public AjaxResult entering(@RequestBody @Validated TenantEnteringDto dto){
+        //参数验证 前端验证不靠谱 采用springboot的验证依赖 在controller中注解@validated
+        tenantService.entering(dto);
+        return AjaxResult.me();
     }
 }

@@ -81,7 +81,7 @@ public class EmployeeController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Employee> json(@RequestBody EmployeeQuery query)
     {
-        Page<Employee> page = new Page<Employee>(query.getPageNum(),query.getPageSize());
+        Page<Employee> page = new Page<Employee>(query.getPage(),query.getPageSize());
         page = employeeService.page(page);
         return new PageList<Employee>(page.getTotal(),page.getRecords());
     }

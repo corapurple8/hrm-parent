@@ -57,7 +57,7 @@ public class Employee implements Serializable {
     private Long tenantId;
 
     @ApiModelProperty(value = "员工类型 ， 1普通员工 ，2客服人员，3管理员，或其他")
-    private Boolean type;
+    private Integer type;
 
     private String salt;
 

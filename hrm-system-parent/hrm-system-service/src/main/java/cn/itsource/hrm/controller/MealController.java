@@ -81,7 +81,7 @@ public class MealController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Meal> json(@RequestBody MealQuery query)
     {
-        Page<Meal> page = new Page<Meal>(query.getPageNum(),query.getPageSize());
+        Page<Meal> page = new Page<Meal>(query.getPage(),query.getPageSize());
         page = mealService.page(page);
         return new PageList<Meal>(page.getTotal(),page.getRecords());
     }

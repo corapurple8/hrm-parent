@@ -81,7 +81,7 @@ public class RoleController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Role> json(@RequestBody RoleQuery query)
     {
-        Page<Role> page = new Page<Role>(query.getPageNum(),query.getPageSize());
+        Page<Role> page = new Page<Role>(query.getPage(),query.getPageSize());
         page = roleService.page(page);
         return new PageList<Role>(page.getTotal(),page.getRecords());
     }

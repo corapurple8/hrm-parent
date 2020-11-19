@@ -12,6 +12,7 @@
         <module>hrm-support-parent</module>
         <module>hrm-basic-parent</module>
         <module>hrm-system-parent</module>
+        <module>hrm-file-parent</module>
     </modules>
 
     <!--管理一些公共的属性-->
@@ -61,7 +62,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
-                <version>1.1.9</version>
+                <version>1.1.18</version>
             </dependency>
 
             <!--管理swagger-->
@@ -77,6 +78,7 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.9.2</version>
             </dependency>
+
         </dependencies>
 
     </dependencyManagement>

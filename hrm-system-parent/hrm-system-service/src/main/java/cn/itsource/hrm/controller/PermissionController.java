@@ -81,7 +81,7 @@ public class PermissionController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Permission> json(@RequestBody PermissionQuery query)
     {
-        Page<Permission> page = new Page<Permission>(query.getPageNum(),query.getPageSize());
+        Page<Permission> page = new Page<Permission>(query.getPage(),query.getPageSize());
         page = permissionService.page(page);
         return new PageList<Permission>(page.getTotal(),page.getRecords());
     }

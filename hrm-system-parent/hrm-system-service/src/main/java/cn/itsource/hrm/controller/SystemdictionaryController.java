@@ -81,7 +81,7 @@ public class SystemdictionaryController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Systemdictionary> json(@RequestBody SystemdictionaryQuery query)
     {
-        Page<Systemdictionary> page = new Page<Systemdictionary>(query.getPageNum(),query.getPageSize());
+        Page<Systemdictionary> page = new Page<Systemdictionary>(query.getPage(),query.getPageSize());
         page = systemdictionaryService.page(page);
         return new PageList<Systemdictionary>(page.getTotal(),page.getRecords());
     }

@@ -81,7 +81,7 @@ public class DepartmentController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Department> json(@RequestBody DepartmentQuery query)
     {
-        Page<Department> page = new Page<Department>(query.getPageNum(),query.getPageSize());
+        Page<Department> page = new Page<Department>(query.getPage(),query.getPageSize());
         page = departmentService.page(page);
         return new PageList<Department>(page.getTotal(),page.getRecords());
     }

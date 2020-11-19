@@ -81,7 +81,7 @@ public class MenuController {
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
     public PageList<Menu> json(@RequestBody MenuQuery query)
     {
-        Page<Menu> page = new Page<Menu>(query.getPageNum(),query.getPageSize());
+        Page<Menu> page = new Page<Menu>(query.getPage(),query.getPageSize());
         page = menuService.page(page);
         return new PageList<Menu>(page.getTotal(),page.getRecords());
     }
