@@ -1,5 +1,6 @@
 package cn.itsource.hrm.controller;
 
+import cn.itsource.hrm.controller.dto.CourseDto;
 import cn.itsource.hrm.service.ICourseService;
 import cn.itsource.hrm.domain.Course;
 import cn.itsource.hrm.query.CourseQuery;
@@ -7,6 +8,7 @@ import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,22 +21,13 @@ public class CourseController {
 
     /**
     * 保存和修改公用的
-    * @param course  传递的实体
+    * @param dto  传递的实体
     * @return Ajaxresult转换结果
     */
     @RequestMapping(value="/save",method= RequestMethod.POST)
-    public AjaxResult save(@RequestBody Course course){
-        try {
-            if(course.getId()!=null){
-                courseService.updateById(course);
-            }else{
-                courseService.save(course);
-            }
-            return AjaxResult.me();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.me().setSuccess(false).setMessage("保存对象失败！"+e.getMessage());
-        }
+    public AjaxResult save(@RequestBody @Validated CourseDto dto){
+        courseService.add(dto);
+        return AjaxResult.me();
     }
 
     /**

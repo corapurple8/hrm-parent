@@ -15,5 +15,10 @@
     <sql id="Base_Column_List">
         id, parent_id, name, requence, intro
     </sql>
+    <select id="selectBySn" resultType="cn.itsource.hrm.domain.Systemdictionaryitem">
+        SELECT si.* FROM t_systemdictionary s
+        LEFT JOIN t_systemdictionaryitem si on s.id = si.parent_id
+        WHERE s.sn = #{sn}
+    </select>
 
 </mapper>

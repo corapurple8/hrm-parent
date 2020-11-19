@@ -85,4 +85,16 @@ public class SystemdictionaryitemController {
         page = systemdictionaryitemService.page(page);
         return new PageList<Systemdictionaryitem>(page.getTotal(),page.getRecords());
     }
+
+    /**
+     * 根据数据字典目录的sn去查询明细
+     * @param sn
+     * @return
+     */
+    @GetMapping("/listBySn/{sn}")
+    public AjaxResult listBySn(@PathVariable("sn")String sn){
+        List<Systemdictionaryitem> items = systemdictionaryitemService.listBySn(sn);
+        return AjaxResult.me().setResultObj(items);
+
+    }
 }
