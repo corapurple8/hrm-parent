@@ -78,4 +78,26 @@ public class CourseController {
         page = courseService.page(page);
         return new PageList<Course>(page.getTotal(),page.getRecords());
     }
+
+    /**
+     * 批量上线
+     * @param ids
+     * @return
+     */
+    @PostMapping("/onLineCourse")
+    public AjaxResult onlineCourse(@RequestBody List<Long> ids){
+        courseService.onlineCourse(ids);
+        return AjaxResult.me();
+    }
+
+    /**
+     * 批量下线
+     * @param ids
+     * @return
+     */
+    @PostMapping("/offLineCourse")
+    public AjaxResult offLineCourse(@RequestBody List<Long> ids){
+        courseService.offLineCourse(ids);
+        return AjaxResult.me();
+    }
 }

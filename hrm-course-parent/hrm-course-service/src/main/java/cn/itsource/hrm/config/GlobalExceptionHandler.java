@@ -22,6 +22,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)   //处理异常
     public AjaxResult exceptionHandler(Exception e){
         e.printStackTrace();
-        return AjaxResult.me().setSuccess(false).setMessage("啊，系统异常啦，我们正在殴打程序员...");
+        return AjaxResult.me().setSuccess(false).setMessage(e.getMessage());
     }
 }

@@ -4,6 +4,8 @@ import cn.itsource.hrm.controller.dto.CourseDto;
 import cn.itsource.hrm.domain.Course;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -18,4 +20,16 @@ public interface ICourseService extends IService<Course> {
      * @param dto
      */
     void add(CourseDto dto);
+
+    /**
+     * 批量上线课程
+     * @param ids
+     */
+    void onlineCourse(List<Long> ids);
+
+    /**
+     * 批量下线
+     * @param ids
+     */
+    void offLineCourse(List<Long> ids);
 }
