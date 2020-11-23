@@ -1,0 +1,15 @@
+#注册到eureka中
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1010/eureka
+
+spring:
+  cloud:
+    config:
+      discovery:
+        service-id: config-server
+        enabled: true #启用服务发现，否则service-id不会生效
+      name: application-sms
+      profile: dev
+      label: master

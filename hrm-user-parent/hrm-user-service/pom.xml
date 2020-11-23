@@ -3,29 +3,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>hrm-course-parent</artifactId>
+        <artifactId>hrm-user-parent</artifactId>
         <groupId>org.example</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hrm-course-service</artifactId>
+    <artifactId>hrm-user-service</artifactId>
 
     <dependencies>
-        <!--主类-->
+        <!--common-->
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>hrm-course-common</artifactId>
+            <artifactId>hrm-user-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!--网站支持-->
+        <!--web mvc-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- Eureka 客户端依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
 
-        <!--mybatis自动生成-->
+        <!--场景启动器-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -36,55 +40,31 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!--连接池-->
+        <!--数据库连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
 
-
-        <!--注册中心-->
+        <!--测试-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-        <!--配置-->
+
+
+        <!--配置中心客户端的依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-        <!--验证器-->
+
+        <!--依赖验证模块以便进行验证-->
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>hrm-basic-validator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!--调用redis服务的接口-->
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>hrm-cache-dacade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.57</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>hrm-es-dacade</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!--spirngboot集成rabbitmq-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-
-
 
     </dependencies>
 

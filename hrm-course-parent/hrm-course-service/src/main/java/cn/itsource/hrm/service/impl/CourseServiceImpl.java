@@ -2,6 +2,7 @@ package cn.itsource.hrm.service.impl;
 
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.hrm.client.CourseDocClient;
+import cn.itsource.hrm.config.RabbitConfiguration;
 import cn.itsource.hrm.controller.dto.CourseDto;
 import cn.itsource.hrm.doc.CourseDoc;
 import cn.itsource.hrm.domain.Course;
@@ -11,7 +12,9 @@ import cn.itsource.hrm.mapper.CourseDetailMapper;
 import cn.itsource.hrm.mapper.CourseMapper;
 import cn.itsource.hrm.mapper.CourseMarketMapper;
 import cn.itsource.hrm.service.ICourseService;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,9 @@ import org.springframework.util.Assert;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,6 +47,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Autowired
     private CourseDocClient courseDocClient;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     @Transactional
@@ -92,6 +100,22 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         List<CourseDoc> courseDocList = parseCourseDocList(courses);
         AjaxResult result = courseDocClient.saveBatch(courseDocList);
         Assert.isTrue(result.isSuccess(),result.getMessage());
+
+        //发送上线消息到mq
+        //封装消息
+        List<Map<String,String>> message = new ArrayList<>();
+        //将list转为流并生成map 转为集合
+        message = courses.stream().map(course -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("name", course.getName());
+            map.put("tenantName", course.getTenantName());
+            return map;
+        }).collect(Collectors.toList());
+        //转换为json格式好显示
+        String msg = JSONArray.toJSONString(message);
+        //发送
+        rabbitTemplate.convertAndSend(RabbitConfiguration.EXCHANGE_NAME_DIRECT,"sms",msg);
+        rabbitTemplate.convertAndSend(RabbitConfiguration.EXCHANGE_NAME_DIRECT,"email",msg);
     }
 
     @Override
@@ -115,6 +139,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         List<CourseDoc> courseDocList = parseCourseDocList(courses);
         AjaxResult result = courseDocClient.delBatch(courseDocList);
         Assert.isTrue(result.isSuccess(),result.getMessage());
+
     }
 
     /**
