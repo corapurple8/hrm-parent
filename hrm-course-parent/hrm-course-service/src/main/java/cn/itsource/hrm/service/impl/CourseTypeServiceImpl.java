@@ -3,6 +3,7 @@ package cn.itsource.hrm.service.impl;
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.hrm.client.RedisClient;
 import cn.itsource.hrm.client.RedisConstants;
+import cn.itsource.hrm.controller.vo.Crumb;
 import cn.itsource.hrm.domain.CourseType;
 import cn.itsource.hrm.mapper.CourseTypeMapper;
 import cn.itsource.hrm.service.ICourseTypeService;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -59,6 +61,28 @@ public class CourseTypeServiceImpl extends ServiceImpl<CourseTypeMapper, CourseT
         AjaxResult result1 = redisClient.set(RedisConstants.ALL_COURSE_TYPE_KEY, jsonString, 60 * 60);
         Assert.isTrue(result1.isSuccess(),result.getMessage());
         return courseTypes;
+    }
+
+    @Override
+    public List<Crumb> loadCrumbs(Long id) {
+        List<Crumb> crumbs = new ArrayList<>();
+
+        //当前课程类型
+        CourseType courseType = baseMapper.selectById(id);
+        //其他类型列表(同级) 从path获得
+        String[] ids = courseType.getPath().split("\\.");
+        List<CourseType> otherTypes = new ArrayList<>();
+        for (String s : ids) {//该id也包括自己
+            CourseType currentType = baseMapper.selectById(s);
+            //其他同级的课程类型
+            otherTypes=baseMapper.selectList(new QueryWrapper<CourseType>()
+                    .eq("pid", currentType.getPid())//pid相等
+                    .ne("id", currentType.getId())//排除自己
+            );
+            Crumb crumb = new Crumb(currentType, otherTypes);
+            crumbs.add(crumb);
+        }
+        return crumbs;
     }
 
     /**
@@ -134,8 +158,14 @@ public class CourseTypeServiceImpl extends ServiceImpl<CourseTypeMapper, CourseT
     }
 
     @Override
+    @Transactional
     public boolean save(CourseType entity) {
+        entity.setCreateTime(System.currentTimeMillis());
+        CourseType parent = baseMapper.selectById(entity.getPid());
         boolean save = super.save(entity);
+        //获取主键并拼接
+        String path = parent.getPath()+"."+entity.getId();
+        baseMapper.updateById(entity);
         if (save){
             //调用清空
             synRedis();

@@ -1,5 +1,6 @@
 package cn.itsource.hrm.controller;
 
+import cn.itsource.hrm.controller.vo.Crumb;
 import cn.itsource.hrm.service.ICourseTypeService;
 import cn.itsource.hrm.domain.CourseType;
 import cn.itsource.hrm.query.CourseTypeQuery;
@@ -91,4 +92,12 @@ public class CourseTypeController {
         List<CourseType> list = courseTypeService.treeData();
         return AjaxResult.me().setResultObj(list);
     }
+
+    @GetMapping("/loadCrumbs/{id}")
+    public  AjaxResult loadCrumbs(@PathVariable("id")Long id){
+        List<Crumb> crumbs = courseTypeService.loadCrumbs(id);
+        return AjaxResult.me().setResultObj(crumbs);
+    }
+
+
 }

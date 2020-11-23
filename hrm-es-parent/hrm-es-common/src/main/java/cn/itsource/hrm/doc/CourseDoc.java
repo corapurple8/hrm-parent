@@ -89,10 +89,13 @@ public class CourseDoc {
 
     //排序条件
     //上线时间
+    @Field(type = FieldType.Long,store = true)
     private Long onlineTime;
     //销量
-    private int saleCount;
+    @Field(type = FieldType.Integer,store = true)
+    private Integer saleCount;
     //评论数
-    private int commentCount;
+    @Field(type = FieldType.Integer,store = true)
+    private Integer commentCount;
 
 }
