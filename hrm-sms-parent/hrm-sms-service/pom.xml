@@ -56,6 +56,13 @@
             <version>1.2.57</version>
         </dependency>
 
+        <!--阿里云短信发送依赖-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+
 
     </dependencies>
 

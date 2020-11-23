@@ -66,6 +66,35 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--调用redis相关方法-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>hrm-cache-dacade</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--工具类-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>hrm-basic-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <!--验证包-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>hrm-basic-validator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--调用发短信接口-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>hrm-sms-dacade</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 
