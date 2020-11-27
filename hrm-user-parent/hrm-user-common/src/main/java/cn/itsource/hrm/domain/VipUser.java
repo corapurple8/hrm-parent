@@ -54,10 +54,24 @@ public class VipUser implements Serializable {
     private String nickName;
 
     @ApiModelProperty(value = "用户状态")
-    private Long bitState;
+    private Long bitState=0L;
 
     @ApiModelProperty(value = "安全级别")
     private Integer secLevel;
 
+    //添加位状态
+    public void addBitState(long bitState){
+        this.bitState = this.bitState | bitState;
+    }
+
+    //删除加位状态
+    public void removeBitState(long bitState){
+        this.bitState = this.bitState ^ bitState;
+    }
+
+    //判断包含位状态
+    public boolean hasBitState(long bitState){
+        return (this.bitState & bitState) > 0;
+    }
 
 }

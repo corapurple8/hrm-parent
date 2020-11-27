@@ -13,5 +13,11 @@
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/hrm-system</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="hrm-auth@localhost" uuid="5627c554-170b-4fa6-96f5-42a16b7253f4">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/hrm-auth</jdbc-url>
+    </data-source>
   </component>
 </project>

@@ -27,6 +27,8 @@
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-dacade/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-auth-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-auth-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-config-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-eureka-server/src/main/java" charset="UTF-8" />

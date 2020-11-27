@@ -1,8 +1,8 @@
 package cn.itsource.hrm.controller;
 
-import cn.itsource.hrm.service.IPermissionService;
-import cn.itsource.hrm.domain.Permission;
-import cn.itsource.hrm.query.PermissionQuery;
+import cn.itsource.hrm.service.ILoginService;
+import cn.itsource.hrm.domain.Login;
+import cn.itsource.hrm.query.LoginQuery;
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/permission")
-public class PermissionController {
+@RequestMapping("/login")
+public class LoginController {
     @Autowired
-    public IPermissionService permissionService;
+    public ILoginService loginService;
 
     /**
     * 保存和修改公用的
-    * @param permission  传递的实体
+    * @param login  传递的实体
     * @return Ajaxresult转换结果
     */
     @RequestMapping(value="/save",method= RequestMethod.POST)
-    public AjaxResult save(@RequestBody Permission permission){
+    public AjaxResult save(@RequestBody Login login){
         try {
-            if(permission.getId()!=null){
-                permissionService.updateById(permission);
+            if(login.getId()!=null){
+                loginService.updateById(login);
             }else{
-                permissionService.save(permission);
+                loginService.save(login);
             }
             return AjaxResult.me();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class PermissionController {
     @RequestMapping(value="/{id}",method=RequestMethod.DELETE)
     public AjaxResult delete(@PathVariable("id") Long id){
         try {
-            permissionService.removeById(id);
+            loginService.removeById(id);
             return AjaxResult.me();
         } catch (Exception e) {
         e.printStackTrace();
@@ -55,9 +55,9 @@ public class PermissionController {
 
     //获取用户
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public Permission get(@PathVariable("id")Long id)
+    public Login get(@PathVariable("id")Long id)
     {
-        return permissionService.getById(id);
+        return loginService.getById(id);
     }
 
 
@@ -66,9 +66,9 @@ public class PermissionController {
     * @return
     */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public List<Permission> list(){
+    public List<Login> list(){
 
-        return permissionService.list(null);
+        return loginService.list(null);
     }
 
 
@@ -79,20 +79,10 @@ public class PermissionController {
     * @return PageList 分页对象
     */
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
-    public PageList<Permission> json(@RequestBody PermissionQuery query)
+    public PageList<Login> json(@RequestBody LoginQuery query)
     {
-        Page<Permission> page = new Page<Permission>(query.getPage(),query.getPageSize());
-        page = permissionService.page(page);
-        return new PageList<Permission>(page.getTotal(),page.getRecords());
-    }
-
-    /**
-     * 获取用户权限的接口 其feign在auth认证中使用
-     * @param loginId
-     * @return
-     */
-    @GetMapping("/getPermissionsByUserId/{loginId}")
-    public List<Permission> getPermissionsByUserId(@PathVariable("loginId")Long loginId){
-        return permissionService.selectPermissionsByUserId(loginId);
+        Page<Login> page = new Page<Login>(query.getPage(),query.getPageSize());
+        page = loginService.page(page);
+        return new PageList<Login>(page.getTotal(),page.getRecords());
     }
 }

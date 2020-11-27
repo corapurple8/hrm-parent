@@ -16,5 +16,13 @@
     <sql id="Base_Column_List">
         id, name, resource, state, menu_id, sn
     </sql>
+    <select id="selectPermissionsByUserId" resultType="cn.itsource.hrm.domain.Permission">
+        SELECT p.* FROM t_employee e
+        LEFT JOIN t_employee_role er on e.id = er.employee_id
+        LEFT JOIN t_role r on er.role_id = r.id
+        LEFT JOIN t_role_permission rp on r.id = rp.role_id
+        LEFT JOIN t_permission p on rp.permission_id = p.id
+        WHERE e.id =#{loginId}
+    </select>
 
 </mapper>

@@ -6,6 +6,7 @@ import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.StrUtils;
 import cn.itsource.hrm.client.RedisClient;
 import cn.itsource.hrm.client.UserSMSClient;
+import cn.itsource.hrm.controller.dto.RegisterDto;
 import cn.itsource.hrm.controller.dto.SMSSendDto;
 import cn.itsource.hrm.domain.VipUser;
 import cn.itsource.hrm.service.IVipUserService;
@@ -14,7 +15,11 @@ import jdk.internal.dynalink.beans.StaticClass;
 import net.sf.jsqlparser.expression.LongValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 验证码控制器
@@ -63,7 +68,7 @@ public class CodeController {
      * @return
      */
     @PostMapping("/sendSMSCode")
-    public AjaxResult sendSMSCode(@RequestBody SMSSendDto dto){
+    public AjaxResult sendSMSCode(@RequestBody @Valid SMSSendDto dto){
         //手机号码是否存在
         VipUser user = vipUserService.getOne(new LambdaQueryWrapper<VipUser>().eq(VipUser::getPhone, dto.getPhone()));
         //手机号存在则响应已注册
@@ -110,6 +115,28 @@ public class CodeController {
         //掉用短信接口
         AjaxResult sendRegCode = userSMSClient.sendRegCode(dto.getPhone(), code);
         Assert.isTrue(sendRegCode.isSuccess(),sendRegCode.getMessage());
+        return AjaxResult.me();
+    }
+
+    /**
+     * 手机验证码注册
+     * @return
+     */
+    @PostMapping("/register")
+    public AjaxResult register(@RequestBody @Valid RegisterDto dto){
+        //先验证图形验证码和手机验证码
+        String smsCode = dto.getSmsCode();
+        AjaxResult result = redisClient.get(SMS_CODE_KEY_PRE + dto.getMobile());
+        Assert.isTrue(result.isSuccess(),result.getMessage());
+        String value = (String) result.getResultObj();
+        if (value==null){
+            return AjaxResult.me().setSuccess(false).setMessage("注册失败");
+        }
+        String code = value.split(",")[0];
+        if (!code.equals(smsCode)){
+            return AjaxResult.me().setSuccess(false).setMessage("验证码错误");
+        }
+        vipUserService.register(dto);
         return AjaxResult.me();
     }
 }

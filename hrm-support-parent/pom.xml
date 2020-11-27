@@ -15,6 +15,7 @@
         <module>hrm-eureka-server</module>
         <module>hrm-zuul-gateway</module>
         <module>hrm-config-server</module>
+        <module>hrm-auth-server</module>
     </modules>
 
 
