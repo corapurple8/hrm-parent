@@ -17,6 +17,7 @@
         <module name="hrm-user-service" />
         <module name="hrm-user-common" />
         <module name="hrm-cache-service" />
+        <module name="hrm-basic-oauth2" />
         <module name="hrm-sms-service" />
         <module name="hrm-system-service" />
         <module name="hrm-basic-validator" />

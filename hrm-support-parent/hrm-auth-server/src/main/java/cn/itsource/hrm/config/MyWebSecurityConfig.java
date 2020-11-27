@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * 不使用方法设置
+ * 使用方法设置
  */
 @Configuration
 @EnableWebSecurity(debug = false)//不开启日志
