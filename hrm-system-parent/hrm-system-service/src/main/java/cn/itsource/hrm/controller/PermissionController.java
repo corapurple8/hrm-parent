@@ -7,6 +7,7 @@ import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,6 +93,7 @@ public class PermissionController {
      * @return
      */
     @GetMapping("/getPermissionsByUserId/{loginId}")
+    @PreAuthorize("hasAuthority('permission:listByLoginId')")
     public List<Permission> getPermissionsByUserId(@PathVariable("loginId")Long loginId){
         return permissionService.selectPermissionsByUserId(loginId);
     }
