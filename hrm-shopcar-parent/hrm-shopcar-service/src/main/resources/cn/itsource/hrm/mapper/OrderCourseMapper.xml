@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itsource.hrm.mapper.OrderCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.itsource.hrm.domain.OrderCourse">
+        <id column="id" property="id" />
+        <result column="digest" property="digest" />
+        <result column="state" property="state" />
+        <result column="price" property="price" />
+        <result column="orderSn" property="ordersn" />
+        <result column="paySn" property="paysn" />
+        <result column="lastPayTime" property="lastpaytime" />
+        <result column="lastConfirmTime" property="lastconfirmtime" />
+        <result column="login_id" property="loginId" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="paytype" property="paytype" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, digest, state, price, orderSn, paySn, lastPayTime, lastConfirmTime, login_id, tenant_id, paytype
+    </sql>
+
+</mapper>

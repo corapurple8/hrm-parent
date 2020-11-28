@@ -1,8 +1,8 @@
 package cn.itsource.hrm.controller;
 
-import cn.itsource.hrm.service.ILoginService;
-import cn.itsource.hrm.domain.Login;
-import cn.itsource.hrm.query.LoginQuery;
+import cn.itsource.hrm.service.IOrderAddressService;
+import cn.itsource.hrm.domain.OrderAddress;
+import cn.itsource.hrm.query.OrderAddressQuery;
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.basic.util.PageList;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/orderAddress")
+public class OrderAddressController {
     @Autowired
-    public ILoginService loginService;
+    public IOrderAddressService orderAddressService;
 
     /**
     * 保存和修改公用的
-    * @param login  传递的实体
+    * @param orderAddress  传递的实体
     * @return Ajaxresult转换结果
     */
     @RequestMapping(value="/save",method= RequestMethod.POST)
-    public AjaxResult save(@RequestBody Login login){
+    public AjaxResult save(@RequestBody OrderAddress orderAddress){
         try {
-            if(login.getId()!=null){
-                loginService.updateById(login);
+            if(orderAddress.getId()!=null){
+                orderAddressService.updateById(orderAddress);
             }else{
-                loginService.save(login);
+                orderAddressService.save(orderAddress);
             }
             return AjaxResult.me();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class LoginController {
     @RequestMapping(value="/{id}",method=RequestMethod.DELETE)
     public AjaxResult delete(@PathVariable("id") Long id){
         try {
-            loginService.removeById(id);
+            orderAddressService.removeById(id);
             return AjaxResult.me();
         } catch (Exception e) {
         e.printStackTrace();
@@ -55,9 +55,9 @@ public class LoginController {
 
     //获取用户
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public Login get(@PathVariable("id")Long id)
+    public OrderAddress get(@PathVariable("id")Long id)
     {
-        return loginService.getById(id);
+        return orderAddressService.getById(id);
     }
 
 
@@ -66,9 +66,9 @@ public class LoginController {
     * @return
     */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public List<Login> list(){
+    public List<OrderAddress> list(){
 
-        return loginService.list(null);
+        return orderAddressService.list(null);
     }
 
 
@@ -79,10 +79,10 @@ public class LoginController {
     * @return PageList 分页对象
     */
     @RequestMapping(value = "/pagelist",method = RequestMethod.POST)
-    public PageList<Login> json(@RequestBody LoginQuery query)
+    public PageList<OrderAddress> json(@RequestBody OrderAddressQuery query)
     {
-        Page<Login> page = new Page<Login>(query.getPage(),query.getPageSize());
-        page = loginService.page(page);
-        return new PageList<Login>(page.getTotal(),page.getRecords());
+        Page<OrderAddress> page = new Page<OrderAddress>(query.getPage(),query.getPageSize());
+        page = orderAddressService.page(page);
+        return new PageList<OrderAddress>(page.getTotal(),page.getRecords());
     }
 }

@@ -19,7 +19,7 @@ public class CodeGenerator {
     public static void main(String[] args) {
 
         //默认读取resources目录下的文件，properties后缀省略
-        ResourceBundle bundle = ResourceBundle.getBundle("generator-config-auth");
+        ResourceBundle bundle = ResourceBundle.getBundle("generator-config-shopcar");
 
 
         // 代码生成器 - 核心对象

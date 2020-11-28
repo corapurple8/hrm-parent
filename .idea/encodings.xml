@@ -25,6 +25,10 @@
     <file url="file://$PROJECT_DIR$/hrm-es-parent/hrm-es-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-file-parent/hrm-file-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-file-parent/hrm-file-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-shopcar-parent/hrm-shopcar-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-shopcar-parent/hrm-shopcar-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-shopcar-parent/hrm-shopcar-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-shopcar-parent/hrm-shopcar-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-dacade/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-dacade/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hrm-sms-parent/hrm-sms-service/src/main/java" charset="UTF-8" />

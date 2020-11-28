@@ -20,6 +20,8 @@
         <module name="hrm-file-service" />
         <module name="hrm-basic-oauth2" />
         <module name="hrm-sms-service" />
+        <module name="hrm-shopcar-service" />
+        <module name="hrm-shopcar-common" />
         <module name="hrm-system-service" />
         <module name="hrm-eureka-server" />
         <module name="hrm-basic-util" />
