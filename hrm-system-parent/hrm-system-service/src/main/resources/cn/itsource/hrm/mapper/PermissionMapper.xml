@@ -22,7 +22,7 @@
         LEFT JOIN t_role r on er.role_id = r.id
         LEFT JOIN t_role_permission rp on r.id = rp.role_id
         LEFT JOIN t_permission p on rp.permission_id = p.id
-        WHERE e.id =#{loginId}
+        WHERE e.login_id =#{loginId}
     </select>
 
 </mapper>

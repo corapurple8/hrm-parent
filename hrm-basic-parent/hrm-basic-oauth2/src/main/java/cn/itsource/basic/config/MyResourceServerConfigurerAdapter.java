@@ -1,4 +1,4 @@
-package cn.itsource.hrm.config;
+package cn.itsource.basic.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

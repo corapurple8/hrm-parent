@@ -7,27 +7,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hrm-zuul-gateway" />
+        <module name="hrm-es-common" />
         <module name="hrm-course-common" />
         <module name="hrm-es-dacade" />
         <module name="hrm-config-server" />
-        <module name="hrm-sms-dacade" />
+        <module name="hrm-cache-dacade" />
         <module name="hrm-system-common" />
-        <module name="hrm-eureka-server" />
         <module name="hrm-es-service" />
         <module name="hrm-user-service" />
         <module name="hrm-user-common" />
         <module name="hrm-cache-service" />
+        <module name="hrm-file-service" />
         <module name="hrm-basic-oauth2" />
         <module name="hrm-sms-service" />
         <module name="hrm-system-service" />
-        <module name="hrm-basic-validator" />
-        <module name="hrm-cache-dacade" />
+        <module name="hrm-eureka-server" />
         <module name="hrm-basic-util" />
-        <module name="hrm-es-common" />
+        <module name="hrm-basic-validator" />
         <module name="hrm-course-service" />
         <module name="hrm-auth-server" />
         <module name="hrm-basic-generator" />
-        <module name="hrm-file-service" />
+        <module name="hrm-sms-dacade" />
       </profile>
     </annotationProcessing>
   </component>

@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 各资源服务之间添加feign请求头的配置类
  */
-@Configuration//直接设置 包括component
+//直接设置 包括component
+@Configuration
 public class FeignInterceptor implements RequestInterceptor {
     public static final String ACCESS_TOKEN_KEY="Authorization";
     @Override

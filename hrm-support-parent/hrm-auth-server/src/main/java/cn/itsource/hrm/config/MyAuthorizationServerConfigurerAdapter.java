@@ -96,7 +96,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         //return new InMemoryTokenStore();
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
-    public static final String SIGN_KEY = "secret";
+    public static final String SIGN_KEY = "123";
 
     /**
      * 为了生成jwt仓库存储的增强器 需与tokenservice 共享
