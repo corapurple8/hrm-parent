@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itsource.hrm.mapper.PayAlipayInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.itsource.hrm.domain.PayAlipayInfo">
+        <id column="id" property="id" />
+        <result column="merchant_private_key" property="merchantPrivateKey" />
+        <result column="appid" property="appid" />
+        <result column="alipay_public_key" property="alipayPublicKey" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        merchant_private_key, appid, id, alipay_public_key
+    </sql>
+
+</mapper>
