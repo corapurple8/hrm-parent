@@ -19,6 +19,9 @@ public class GlobalCorsConfig {
         config.addAllowedOrigin("http://127.0.0.1:6001");
         config.addAllowedOrigin("http://127.0.0.1:6002");
         config.addAllowedOrigin("http://127.0.0.1:6003");
+        //nginx代理后前台地址
+        config.addAllowedOrigin("http://user.hrm.com");
+        config.addAllowedOrigin("http://course.hrm.com");
         //2) 是否发送Cookie信息
         config.setAllowCredentials(true);
         //3) 允许的请求方式
