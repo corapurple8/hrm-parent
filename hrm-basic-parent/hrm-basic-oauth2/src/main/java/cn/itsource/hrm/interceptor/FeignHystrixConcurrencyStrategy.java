@@ -1,4 +1,4 @@
-package cn.itsource.basic.interceptor;
+package cn.itsource.hrm.interceptor;
 
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
@@ -11,6 +11,7 @@ import com.netflix.hystrix.strategy.executionhook.HystrixCommandExecutionHook;
 import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * hytrix修改并发策略
  */
-//@Configuration
+@Configuration
 public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
 
     private HystrixConcurrencyStrategy hystrixConcurrencyStrategy;

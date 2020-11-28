@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * 使用方法设置
  */
 @Configuration
-@EnableWebSecurity(debug = false)//不开启日志
+@EnableWebSecurity(debug = true)//开启日志
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
 

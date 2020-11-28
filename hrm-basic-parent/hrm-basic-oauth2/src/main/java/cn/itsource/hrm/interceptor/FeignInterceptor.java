@@ -1,4 +1,4 @@
-package cn.itsource.basic.interceptor;
+package cn.itsource.hrm.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

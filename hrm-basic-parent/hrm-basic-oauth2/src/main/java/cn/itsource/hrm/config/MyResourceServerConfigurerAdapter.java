@@ -1,4 +1,4 @@
-package cn.itsource.basic.config;
+package cn.itsource.hrm.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
-@EnableWebSecurity(debug = false)//开启安全验证并不打印日志
+@EnableWebSecurity(debug = true)//开启安全验证并不打印日志
 @EnableResourceServer//开启资源服务器
 @EnableGlobalMethodSecurity(prePostEnabled = true)//开启安全验证的方法注解
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
