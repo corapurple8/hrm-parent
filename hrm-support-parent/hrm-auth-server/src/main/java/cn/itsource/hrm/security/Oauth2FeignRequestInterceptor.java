@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 鉴权中心调用system接口查询权限时需要加的请求头 模拟客户端template 临时客户端
  */
-@Component
+//@Component
 public class Oauth2FeignRequestInterceptor implements RequestInterceptor {
     public static final String ACCESS_TOKEN_KEY="Authorization";
     @Override

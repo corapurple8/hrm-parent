@@ -26,8 +26,8 @@ import javax.sql.DataSource;
 /**
  * 鉴权中心设置类
  */
-@Configuration
-@EnableAuthorizationServer//开启认证服务器管理
+//@Configuration
+//@EnableAuthorizationServer//开启认证服务器管理
 public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
 

@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * hytrix修改并发策略
  */
-@Configuration
+//@Configuration
 public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
 
     private HystrixConcurrencyStrategy hystrixConcurrencyStrategy;

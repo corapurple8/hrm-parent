@@ -37,7 +37,7 @@ public class CarCourse implements Serializable {
     private Long courseId;
 
     @ApiModelProperty(value = "课程数量")
-    private Integer count;
+    private Integer count=1;
 
     @ApiModelProperty(value = "价格")
     private BigDecimal price;

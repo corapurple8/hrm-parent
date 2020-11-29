@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
-@Component
+//@Component
 public class LoginSystemClientFallbackFacktory implements FallbackFactory<LoginSystemClient> {
     @Override
     public LoginSystemClient create(Throwable throwable) {

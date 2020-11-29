@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 调用接口  只拦截这一个请求 所以拦截器没有全局设置
  */
-@FeignClient(value = "hrm-system",path = "permission",fallbackFactory = LoginSystemClientFallbackFacktory.class,configuration = Oauth2FeignRequestInterceptor.class)
+//@FeignClient(value = "hrm-system",path = "permission",fallbackFactory = LoginSystemClientFallbackFacktory.class,configuration = Oauth2FeignRequestInterceptor.class)
 public interface LoginSystemClient {
     @GetMapping("/getPermissionsByUserId/{loginId}")
     List<Permission> getPermissionsByUserId(@PathVariable("loginId")Long loginId);

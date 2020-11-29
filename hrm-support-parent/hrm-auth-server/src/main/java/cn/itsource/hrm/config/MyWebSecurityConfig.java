@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * 使用方法设置
  */
-@Configuration
-@EnableWebSecurity(debug = true)//开启日志
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableWebSecurity(debug = true)//开启日志
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //密码 编码器

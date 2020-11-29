@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class MyUserDetailService implements UserDetailsService {
 
     @Autowired
