@@ -12,4 +12,14 @@ public class Constant {
     public static final String SHOPCAR_PRE="shopcar:";
     /**在redis中存储的购物车对象信息时间*/
     public static final Integer EXPIRE_TIME=30*60;
+
+
+    /**已支付订单*/
+    public static final Integer DISABLED = -1;
+    /** 正常订单*/
+    public static final Integer NORMAL = 0;
+    /**待支付*/
+    public static final Integer AUDIT = 1;
+    /**已取消订单*/
+    public static final Integer REJECT = 2;
 }
