@@ -23,6 +23,8 @@ public class PayServiceImpl implements IPayService {
         System.out.println(alipayInfo);
         //以下是支付宝自己的接口 将关键信息替换
         AlipayClient alipayClient =  new DefaultAlipayClient(AlipayConfig.gatewayUrl, alipayInfo.getAppid(), alipayInfo.getMerchantPrivateKey(), AlipayConfig.fomat, AlipayConfig.charset, alipayInfo.getAlipayPublicKey(), AlipayConfig.sign_type);  //获得初始化的AlipayClient
+        System.out.println(alipayInfo.getAlipayPublicKey());
+        System.out.println(alipayInfo.getMerchantPrivateKey());
         AlipayTradePagePayRequest alipayRequest =  new  AlipayTradePagePayRequest(); //创建API对应的request
         alipayRequest.setReturnUrl( AlipayConfig.return_url );
         alipayRequest.setNotifyUrl( AlipayConfig.notify_url); //在公共参数中设置回跳和通知地址

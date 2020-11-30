@@ -38,5 +38,5 @@ public interface ICarCourseService extends IService<CarCourse> {
      * 购买一个购物车里的课程对象
      * @param courseDto
      */
-    void buy(CourseDto courseDto);
+    String buy(CourseDto courseDto);
 }

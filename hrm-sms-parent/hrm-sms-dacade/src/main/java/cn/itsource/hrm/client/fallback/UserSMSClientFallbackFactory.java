@@ -3,7 +3,9 @@ package cn.itsource.hrm.client.fallback;
 import cn.itsource.basic.util.AjaxResult;
 import cn.itsource.hrm.client.UserSMSClient;
 import feign.hystrix.FallbackFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserSMSClientFallbackFactory implements FallbackFactory<UserSMSClient> {
     @Override
     public UserSMSClient create(Throwable throwable) {

@@ -47,13 +47,13 @@ public class PayBill implements Serializable {
 
     @ApiModelProperty(value = "支付方式 余额 三方支付")
     @TableField("payChannel")
-    private Integer paychannel;
+    private Integer paychannel;//支付宝
 
     @TableField("createTime")
     private Date createtime=new Date();
 
     @TableField("updateTime")
-    private Date updatetime;
+    private Date updatetime=new Date();
 
     private Long loginId;
 

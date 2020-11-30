@@ -14,6 +14,7 @@ import cn.itsource.hrm.service.IPayBillService;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -100,18 +101,21 @@ public class AliPayController {
                     //修改时间设置当前
                     payBill.setUpdatetime(new Date());
                     //做状态修改
-                    payBillService.update(payBill,null);
+                    payBillService.update(payBill,new UpdateWrapper<PayBill>().eq("id",payBill.getId()));
                     //根据支付单查询到订单
                     OrderCourse orderCourse = orderCourseService.getOne(new QueryWrapper<OrderCourse>().eq("orderSn", orderSn));
                     //支付单号
                     orderCourse.setPaysn(trade_no);
                     //成功支付
                     orderCourse.setState(Constant.DISABLED);
+                    //存入数据库
+                    orderCourseService.update(orderCourse,new UpdateWrapper<OrderCourse>().eq("id",orderCourse.getId()));
                     //发送站内信
                     String message = orderCourse.getDigest()+"成功,支付单编号为："+trade_no;
                     Long orderAddressId = orderCourse.getOrderAddressId();
                     OrderAddress orderAddress = orderAddressService.getById(orderAddressId);
                     userSMSClient.sendRegCode(orderAddress.getPhone(),message);
+                    System.out.println(message);
                 }
                 return "success";
             }

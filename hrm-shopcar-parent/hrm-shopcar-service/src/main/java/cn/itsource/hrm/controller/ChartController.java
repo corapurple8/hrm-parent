@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -90,17 +92,19 @@ public class ChartController {
      * @return
      */
     @PostMapping("/buy")
-    public AjaxResult buy(HttpServletRequest request,@RequestBody CourseDto courseDto){
+    public AjaxResult buy(HttpServletRequest request, @RequestBody CourseDto courseDto) throws IOException {
         //获取请求头
-        String loginId = request.getHeader(Constant.LOGINID_KEY);
+        /*String loginId = request.getHeader(Constant.LOGINID_KEY);
         if (!StringUtils.isNotBlank(loginId)) {//为空
             //没有请求头
             //调用没有用户的方法
             return AjaxResult.me().setSuccess(false).setMessage("没有用户");
-        }
+        }*/
         //调用业务方法存储该课程购物车 还要进行业务判断是否已经存在
-        courseDto.setLoginId(Long.valueOf(loginId));
-        carCourseService.buy(courseDto);
-        return AjaxResult.me();
+        courseDto.setLoginId(Long.valueOf(2));
+        String form = carCourseService.buy(courseDto);
+        return AjaxResult.me().setResultObj(form);
+
+
     }
 }

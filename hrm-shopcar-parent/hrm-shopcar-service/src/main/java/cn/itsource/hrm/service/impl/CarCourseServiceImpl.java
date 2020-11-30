@@ -6,6 +6,7 @@ import cn.itsource.hrm.client.CourseClient;
 import cn.itsource.hrm.client.CourseDetailClient;
 import cn.itsource.hrm.client.CourseMarketClient;
 import cn.itsource.hrm.client.RedisClient;
+import cn.itsource.hrm.config.AlipayConfig;
 import cn.itsource.hrm.controller.dto.CourseDto;
 import cn.itsource.hrm.domain.*;
 import cn.itsource.hrm.interceptor.Constant;
@@ -14,6 +15,7 @@ import cn.itsource.hrm.service.ICarCourseService;
 import cn.itsource.hrm.service.IPayService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -119,7 +121,7 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         if (shopcar.getId() == null) {
             shopcarMapper.insert(shopcar);
         } else {
-            shopcarMapper.update(shopcar, null);
+            shopcarMapper.update(shopcar, new UpdateWrapper<Shopcar>().eq("id",shopcar.getId()));
         }
 
         //保存在redis中两条数据 一个是该课程详情 一个是所有的愿望清单
@@ -159,7 +161,7 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         System.out.println(wantIds);
         shopcar.setWantIds(wantIds);
         //购物车从数据库中修改
-        shopcarMapper.update(shopcar, null);
+        shopcarMapper.update(shopcar, new UpdateWrapper<Shopcar>().eq("id",shopcar.getId()));
         //改变redis
         redisClient.set(Constant.SHOPCAR_PRE + loginId, wantIds, Constant.EXPIRE_TIME);
     }
@@ -202,7 +204,7 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
      * @param courseDto
      */
     @Override
-    public void buy(CourseDto courseDto) {
+    public String buy(CourseDto courseDto) {
         //创建一个新的课程订单
         OrderCourse orderCourse = new OrderCourse();
 
@@ -219,6 +221,11 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         orderAddress.setOrdersn(orderSn);
         orderCourse.setLoginId(courseDto.getLoginId());
         orderAddress.setLoginId(courseDto.getLoginId());
+        orderCourse.setTenantId(courseDto.getTenantId());
+        orderCourse.setCourseId(courseDto.getId());
+        orderCourse.setPaytype(1);
+        //价格
+        orderCourse.setPrice(new BigDecimal(courseDto.getPrice()));
 
 
         //写进数据库得到主键 存入订单地址
@@ -247,6 +254,7 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         //删除购物车里的courseDto
         delete(courseDto);
         System.out.println(formHtml);
+        return formHtml;
     }
 
     /**
@@ -258,10 +266,11 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         PayBill payBill = new PayBill();
         payBill.setDigest(orderCourse.getDigest());
         payBill.setMoney(orderCourse.getPrice());
+        //支付宝方式
+        payBill.setPaychannel(orderCourse.getPaytype());
         //待支付
         payBill.setState(Constant.AUDIT);
         payBill.setLastpaytime(orderCourse.getLastpaytime());
-        payBill.setPaychannel(orderCourse.getPaytype());
         payBill.setLoginId(orderCourse.getLoginId());
         payBill.setTenantId(orderCourse.getTenantId());
         payBill.setOrdersn(orderCourse.getOrdersn());
