@@ -1,20 +1,25 @@
 package cn.itsource.hrm.controller;
 
+import cn.itsource.hrm.client.UserSMSClient;
 import cn.itsource.hrm.config.AlipayConfig;
+import cn.itsource.hrm.domain.OrderAddress;
+import cn.itsource.hrm.domain.OrderCourse;
 import cn.itsource.hrm.domain.PayAlipayInfo;
 import cn.itsource.hrm.domain.PayBill;
 import cn.itsource.hrm.interceptor.Constant;
+import cn.itsource.hrm.service.IOrderAddressService;
 import cn.itsource.hrm.service.IOrderCourseService;
 import cn.itsource.hrm.service.IPayAlipayInfoService;
 import cn.itsource.hrm.service.IPayBillService;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,6 +36,12 @@ public class AliPayController {
     private IOrderCourseService orderCourseService;
     @Autowired//阿里支付的各种公钥秘钥
     private IPayAlipayInfoService alipayInfoService;
+
+    @Autowired
+    private UserSMSClient userSMSClient;
+
+    @Autowired
+    private IOrderAddressService orderAddressService;
 
 
     @RequestMapping("/notify")//异步验证支付宝跳转接口
@@ -87,12 +98,20 @@ public class AliPayController {
                     payBill.setState(Constant.DISABLED);//成功支付
                     payBill.setUnionpaysn(trade_no);
                     //修改时间设置当前
-                    payBill.setUpdatetime(LocalDateTime.now());
+                    payBill.setUpdatetime(new Date());
                     //做状态修改
                     payBillService.update(payBill,null);
                     //根据支付单查询到订单
-
-
+                    OrderCourse orderCourse = orderCourseService.getOne(new QueryWrapper<OrderCourse>().eq("orderSn", orderSn));
+                    //支付单号
+                    orderCourse.setPaysn(trade_no);
+                    //成功支付
+                    orderCourse.setState(Constant.DISABLED);
+                    //发送站内信
+                    String message = orderCourse.getDigest()+"成功,支付单编号为："+trade_no;
+                    Long orderAddressId = orderCourse.getOrderAddressId();
+                    OrderAddress orderAddress = orderAddressService.getById(orderAddressId);
+                    userSMSClient.sendRegCode(orderAddress.getPhone(),message);
                 }
                 return "success";
             }

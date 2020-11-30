@@ -103,8 +103,4 @@ public class ChartController {
         carCourseService.buy(courseDto);
         return AjaxResult.me();
     }
-
-
-
-
 }

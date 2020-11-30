@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,17 +43,17 @@ public class PayBill implements Serializable {
     private Integer state;
 
     @TableField("lastPayTime")
-    private LocalDateTime lastpaytime;
+    private Date lastpaytime;
 
     @ApiModelProperty(value = "支付方式 余额 三方支付")
     @TableField("payChannel")
     private Integer paychannel;
 
     @TableField("createTime")
-    private LocalDateTime createtime;
+    private Date createtime=new Date();
 
     @TableField("updateTime")
-    private LocalDateTime updatetime;
+    private Date updatetime;
 
     private Long loginId;
 
@@ -59,7 +61,7 @@ public class PayBill implements Serializable {
     @TableField("unionPaySn")
     private String unionpaysn;
 
-    private Integer tenantId;
+    private Long tenantId;
 
     @ApiModelProperty(value = "订单编号")
     @TableField("orderSn")

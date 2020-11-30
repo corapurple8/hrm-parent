@@ -1,5 +1,6 @@
 package cn.itsource.hrm.controller.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -29,4 +30,10 @@ public class CourseDto {
     private LocalDate expires;
     private Long tenantId;
     private String tenantName;
+
+    //地址类
+    private String contacts;
+    private String address;
+    private String phone;
+
 }

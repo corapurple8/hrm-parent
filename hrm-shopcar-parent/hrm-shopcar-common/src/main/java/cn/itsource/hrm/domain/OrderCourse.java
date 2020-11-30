@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -46,10 +48,10 @@ public class OrderCourse implements Serializable {
     private String paysn;
 
     @TableField("lastPayTime")
-    private LocalDateTime lastpaytime;
+    private Date lastpaytime;
 
     @TableField("lastConfirmTime")
-    private LocalDateTime lastconfirmtime;
+    private Date lastconfirmtime;
 
     private Long loginId;
 
@@ -57,6 +59,8 @@ public class OrderCourse implements Serializable {
 
     @ApiModelProperty(value = "支付方式：1表示银联 2表示微信 3表示支付宝")
     private Integer paytype;
-
-
+    /**订单地址*/
+    private Long orderAddressId;
+    /**课程id*/
+    private Long courseId;
 }

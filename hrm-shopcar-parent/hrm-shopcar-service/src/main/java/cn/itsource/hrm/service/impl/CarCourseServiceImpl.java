@@ -1,6 +1,7 @@
 package cn.itsource.hrm.service.impl;
 
 import cn.itsource.basic.util.AjaxResult;
+import cn.itsource.basic.util.CodeGenerateUtils;
 import cn.itsource.hrm.client.CourseClient;
 import cn.itsource.hrm.client.CourseDetailClient;
 import cn.itsource.hrm.client.CourseMarketClient;
@@ -8,24 +9,24 @@ import cn.itsource.hrm.client.RedisClient;
 import cn.itsource.hrm.controller.dto.CourseDto;
 import cn.itsource.hrm.domain.*;
 import cn.itsource.hrm.interceptor.Constant;
-import cn.itsource.hrm.mapper.CarCourseMapper;
-import cn.itsource.hrm.mapper.ShopcarMapper;
+import cn.itsource.hrm.mapper.*;
 import cn.itsource.hrm.service.ICarCourseService;
+import cn.itsource.hrm.service.IPayService;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +53,19 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
 
     @Autowired//注入购物车mapper
     private ShopcarMapper shopcarMapper;
+
+    @Autowired//注入订单地址mapper (用户地址,用户联系方式)
+    private OrderAddressMapper orderAddressMapper;
+
+    @Autowired//注入订单mapper
+    private OrderCourseMapper orderCourseMapper;
+
+    @Autowired
+    private PayBillMapper payBillMapper;
+
+    @Autowired
+    private IPayService payService;
+
 
     @Override
     @Transactional//开启事务修改数据库
@@ -189,7 +203,69 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
      */
     @Override
     public void buy(CourseDto courseDto) {
+        //创建一个新的课程订单
+        OrderCourse orderCourse = new OrderCourse();
 
+        //订单地址
+        OrderAddress orderAddress = new OrderAddress();
+        orderAddress.setContacts(courseDto.getContacts());
+        orderAddress.setAddress(courseDto.getAddress());
+        orderAddress.setPhone(courseDto.getPhone());
+
+        //生成随机订单号
+        String orderSn = CodeGenerateUtils.generateOrderSn(courseDto.getLoginId());
+        //设置进订单和订单地址
+        orderCourse.setOrdersn(orderSn);
+        orderAddress.setOrdersn(orderSn);
+        orderCourse.setLoginId(courseDto.getLoginId());
+        orderAddress.setLoginId(courseDto.getLoginId());
+
+
+        //写进数据库得到主键 存入订单地址
+        orderAddressMapper.insert(orderAddress);
+        orderCourse.setOrderAddressId(orderAddress.getId());
+
+        //设置过期时间
+        //支付过期 60s*5 5分钟
+        Date lastPayTime = DateUtils.addSeconds(new Date(),60*5);
+        //订单确认过期 7天确认收货
+        Date lastConfirmTime =DateUtils.addDays(new Date(),7) ;
+        orderCourse.setLastpaytime(lastPayTime);
+        orderCourse.setLastconfirmtime(lastConfirmTime);
+        //设置订单简述
+        orderCourse.setDigest("课程选择:"+courseDto.getLoginId()+"购买了"+courseDto.getName());
+        //将主键写回 正常订单
+        orderCourse.setState(Constant.NORMAL);
+        //写进数据库
+        orderCourseMapper.insert(orderCourse);
+        //创建一个支付订单
+        PayBill payBill = this.createPayBill(orderCourse);
+        //存入数据库
+        payBillMapper.insert(payBill);
+        //调用支付接口，返回一个html字符串，可以用来跳转到支付页面
+        String formHtml = payService.jumpToPay(orderCourse);
+        //删除购物车里的courseDto
+        delete(courseDto);
+        System.out.println(formHtml);
+    }
+
+    /**
+     * 生成一个支付单
+     * @param orderCourse
+     * @return
+     */
+    private PayBill createPayBill(OrderCourse orderCourse) {
+        PayBill payBill = new PayBill();
+        payBill.setDigest(orderCourse.getDigest());
+        payBill.setMoney(orderCourse.getPrice());
+        //待支付
+        payBill.setState(Constant.AUDIT);
+        payBill.setLastpaytime(orderCourse.getLastpaytime());
+        payBill.setPaychannel(orderCourse.getPaytype());
+        payBill.setLoginId(orderCourse.getLoginId());
+        payBill.setTenantId(orderCourse.getTenantId());
+        payBill.setOrdersn(orderCourse.getOrdersn());
+        return payBill;
     }
 
     /**
