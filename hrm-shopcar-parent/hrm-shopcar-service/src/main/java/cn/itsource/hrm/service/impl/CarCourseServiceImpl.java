@@ -126,12 +126,12 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
 
         //保存在redis中两条数据 一个是该课程详情 一个是所有的愿望清单
         //所有愿望清单 可以直接获取 根据清单去找购物车课程详情
-        //shopcar:2=1,2,3,4
+        //shopcar:2=1,2,3,4,10
         redisClient.set(Constant.SHOPCAR_PRE + carCourse.getLoginId(), wantIds, Constant.EXPIRE_TIME);
         //转换为json字符串
         String chartCourse = JSON.toJSONString(courseDto);
         //设置为半小时过期
-        //shopcar:2:10=购物车id为10的课程1
+        //chart:2:10=购物车id为10的课程1
         redisClient.set(Constant.COURSE_PRE + carCourse.getLoginId() + ":" + carCourse.getId(), chartCourse, Constant.EXPIRE_TIME);
     }
 
@@ -246,7 +246,7 @@ public class CarCourseServiceImpl extends ServiceImpl<CarCourseMapper, CarCourse
         //写进数据库
         orderCourseMapper.insert(orderCourse);
         //创建一个支付订单
-        PayBill payBill = this.createPayBill(orderCourse);
+        PayBill payBill = createPayBill(orderCourse);
         //存入数据库
         payBillMapper.insert(payBill);
         //调用支付接口，返回一个html字符串，可以用来跳转到支付页面
