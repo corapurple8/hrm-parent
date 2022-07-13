@@ -67,7 +67,5 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
         tenantMeal.setTenantId(tenant.getId());
         tenantMeal.setMealId(dto.getMealId());
         tenantMealMapper.insert(tenantMeal);
-
-
     }
 }

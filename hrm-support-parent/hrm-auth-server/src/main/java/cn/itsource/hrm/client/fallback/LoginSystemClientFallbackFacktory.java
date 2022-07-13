@@ -17,6 +17,5 @@ public class LoginSystemClientFallbackFacktory implements FallbackFactory<LoginS
                 return Collections.emptyList();
             }
         };
-
     }
 }
